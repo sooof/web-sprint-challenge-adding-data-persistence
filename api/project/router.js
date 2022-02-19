@@ -8,7 +8,6 @@ const router = express.Router()
 // [GET] /api/projects
 router.get('/', async (req, res, next)=>{
     try{
-        // res.json({message: "[GET] /api/projects"})
         const project = await Project.getProjectAll()
         res.json(project)
     }catch(err){
@@ -20,7 +19,6 @@ router.get('/', async (req, res, next)=>{
 
 router.post('/', async (req, res, next)=>{
     try{
-        // res.json({message: "[POST] /api/projects"})
         const project = await Project.create(req.body)
         res.status(201).json(project)
     }catch(err){
