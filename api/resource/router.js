@@ -1,15 +1,25 @@
-// build your `/api/resources` router here
+
+
+const express = require('express')
 const Resource = require('./model')
-const router =require('express').Router()
-const {validateResource, checkResourceUnique} = require('./resource-middleware')
-// [POST] /api/resources
-// TEST:  http post :9000/api/resources
-// TEST: http post :9000/api/resources resource_name=jkjk
-router.post('/', validateResource, checkResourceUnique, async (req, res, next)=>{
+
+const router = express.Router()
+
+// [GET] /api/resources
+router.get('/', async (req, res, next)=>{
     try{
-        // res.json({
-        //     message: "[POST] resource"
-        // })
+        // res.json({message: "[GET] /api/resources"})
+        const resource = await Resource.getResourceAll()
+        res.json(resource)
+    }catch(err){
+        next(err)
+    }
+})
+
+// [POST] /api/resources
+router.post('/', async (req, res, next)=>{
+    try{
+        // res.json({message: "[POST] /api/resources"})
         const resource = await Resource.create(req.body)
         res.status(201).json(resource)
     }catch(err){
@@ -17,21 +27,4 @@ router.post('/', validateResource, checkResourceUnique, async (req, res, next)=>
     }
 })
 
-// [GET] /api/resources
-// TEST:  http :9000/api/resources
-router.get('/', async (req, res, next)=>{
-    try{
-        // res.json({
-        //     message: "[GET] resources"
-        // })
-        const resource = await Resource.find()
-        res.json(resource)
-    }catch(err){
-        next(err)
-    }
-})
-
-
-
-
-module.exports =router
+module.exports = router
